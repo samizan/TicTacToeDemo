@@ -7,16 +7,21 @@
     <script src="Scripts/default.js"></script>
 </head>
 <body>
-    <div id="playerX">
-        <p>Player 1</p>
-        <div id="squareX" data-square="X" class="square player"></div>
-    </div>
-    <div id="message">
-        <div id="gameBoard"></div>
-    </div>
-    <div id="playerY">
-        <p>Player 2</p>
-        <div id="squareO" data-square="O" class="square player"></div>
+    <div class="flex-container">
+        <div id="playerX" class="flex-item">
+            <p>Player 1</p>
+            <div id="squareX" data-square="X" class="square player"></div>
+        </div>
+        <div id="game" class="flex-item">
+            <div id="message" align="center">
+                <div id="gameBoard"></div>
+            </div>
+        </div>
+
+        <div id="playerO" class="flex-item">
+            <p>Player 2</p>
+            <div id="squareO" data-square="O" class="square player"></div>
+        </div>
     </div>
 </body>
 </html>
