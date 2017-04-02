@@ -66,8 +66,9 @@ function moveTile(sourceLocation, destinationLocation) {
     var winningGame = checkForWinner(sourceLocation, destinationLocation);
     if (!winningGame)
         changePlayerTurn(sourceLocation);
-    else
-        alert("Player "+ sourceLocation+ " has won!");
+    else {
+        alert("Player " + sourceLocation + " has won!");
+    }
 }
 
 function changePlayerTurn(previousPlayer) {
@@ -115,7 +116,7 @@ function checkHorizontalTiles(player, squareTile) {
         thirdTile =  secondTile -1 ;
     }
 
-    return checkSimilarTiles(secondTile, thirdTile);
+    return checkWinningTiles(player, squareTile, secondTile, thirdTile);
 }
 
 function checkVerticalTiles(player, squareTile) {
@@ -136,7 +137,7 @@ function checkVerticalTiles(player, squareTile) {
         thirdTile = secondTile - 3;
     }
 
-    return checkSimilarTiles(secondTile, thirdTile);
+    return checkWinningTiles(player, squareTile, secondTile, thirdTile);
 }
 
 function checkDiagonalTiles(player, squareTile) {
@@ -171,15 +172,18 @@ function checkDiagonalTiles(player, squareTile) {
     else
         return;
 
-    return checkSimilarTiles(secondTile, thirdTile);
+    return checkWinningTiles(player, squareTile, secondTile, thirdTile);
 }
 
-function checkSimilarTiles(secondTile, thirdTile) {
+function checkWinningTiles(player, firstTile, secondTile, thirdTile) {
     if ($('#square' + secondTile).children().text() != player) {
         return false;
     }
     if ($('#square' + thirdTile).children().text() != player) {
         return false;
     }
+    $('#square' + firstTile).children().addClass("won-tile");
+    $('#square' + secondTile).children().addClass("won-tile");
+    $('#square' + thirdTile).children().addClass("won-tile");
     return true;
 }

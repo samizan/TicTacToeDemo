@@ -65,6 +65,9 @@
 }
 
 .dragged {
-    background-color: red;
+    background-color: lightgray;
 }
 
+.won-tile {
+    background-color: red;
+}
