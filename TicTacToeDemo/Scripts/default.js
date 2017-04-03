@@ -3,6 +3,9 @@
 var squareCount = 9;
 var player;
 var turnsLeft;
+var resultX = 0;
+var resultO = 0;
+var totalPlayedRounds = 0;
 
 $(document).ready(function () {
     jQuery.event.addProp('dataTransfer');
@@ -25,6 +28,7 @@ function initializeRound() {
     else {
         initializePlayer("X");
     }
+    displayResults();
 }
 
 function resetBoard() {
@@ -37,6 +41,12 @@ function createBoard() {
         var $square = $('<div id="square' + i + '" data-square="' + i + '" class="square" ></div>');
         $square.appendTo($('#gameBoard'));
     }
+}
+
+function displayResults() {
+    $('#resultX').text(resultX);
+    $('#resultO').text(resultO);
+    $('#totalRounds').text(totalPlayedRounds);
 }
 
 function dragStarted(e) {
@@ -80,6 +90,7 @@ function moveTile(sourceLocation, destinationLocation) {
     var winningGame = checkForWinner(sourceLocation, destinationLocation);
     if (winningGame) {
         alert("Player " + sourceLocation + " has won!");
+        updateResults(sourceLocation);
     }
     else if (turnsLeft > 0) {
         changePlayerTurn(sourceLocation);
@@ -87,6 +98,15 @@ function moveTile(sourceLocation, destinationLocation) {
     else {
         endCurrentRound();
     }
+}
+
+function updateResults(wonPlayer) {
+    if (wonPlayer == "X")
+        resultX++;
+    else
+        resultO++;
+    totalPlayedRounds++;
+    displayResults();
 }
 
 function changePlayerTurn(previousPlayer) {
@@ -99,9 +119,9 @@ function changePlayerTurn(previousPlayer) {
 
 function endCurrentRound() {
     alert("No player has won! Try again");
+    totalPlayedRounds++;
     initializeRound();
 }
-
 
 function checkForWinner(player, squareTile) {
     var $square = $('#square' + squareTile);
