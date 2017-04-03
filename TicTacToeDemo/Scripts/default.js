@@ -2,11 +2,11 @@
 
 var squareCount = 9;
 var player;
+var turnsLeft;
 
 $(document).ready(function () {
     jQuery.event.addProp('dataTransfer');
-    createBoard();
-    initializePlayer("X");
+    initializeRound();
     $('.player').on('dragstart', dragStarted);
     $('.player').on('dragend', dragEnded);
     $('#gameBoard').on('dragenter', preventDefault);
@@ -14,6 +14,23 @@ $(document).ready(function () {
     $('#gameBoard').on('drop', drop);
     $('#gameBoard').on('dragstart', preventDefault);
 });
+
+function initializeRound() {
+    turnsLeft = 9;
+    resetBoard();
+    createBoard();
+    if (player == "X") {
+        initializePlayer("O");
+    }
+    else {
+        initializePlayer("X");
+    }
+}
+
+function resetBoard() {
+    $('#gameBoard').children().remove();
+    $('.square').children().remove();
+}
 
 function createBoard() {
     for (var i = 0; i < squareCount; i++) {
@@ -48,14 +65,11 @@ function drop(e) {
     }
 }
 
-function dropSuccess() {
-    console.log("hi success");
-}
-
 function initializePlayer(player) {
     var $square = $('#square' + player);
     var $tile = $('<div id="tile' + player +'"  draggable="true" class="tile" >' + player + '</div>');
     $tile.appendTo($square);
+    turnsLeft--;
 }
 
 function moveTile(sourceLocation, destinationLocation) {
@@ -64,10 +78,14 @@ function moveTile(sourceLocation, destinationLocation) {
     var $target = $('#square' + destinationLocation);
     $draggedItem.appendTo($target);
     var winningGame = checkForWinner(sourceLocation, destinationLocation);
-    if (!winningGame)
-        changePlayerTurn(sourceLocation);
-    else {
+    if (winningGame) {
         alert("Player " + sourceLocation + " has won!");
+    }
+    else if (turnsLeft > 0) {
+        changePlayerTurn(sourceLocation);
+    }
+    else {
+        endCurrentRound();
     }
 }
 
@@ -78,6 +96,12 @@ function changePlayerTurn(previousPlayer) {
         player = "X";
     initializePlayer(player);
 }
+
+function endCurrentRound() {
+    alert("No player has won! Try again");
+    initializeRound();
+}
+
 
 function checkForWinner(player, squareTile) {
     var $square = $('#square' + squareTile);
@@ -104,8 +128,8 @@ function checkHorizontalTiles(player, squareTile) {
 
     // tile is in the first column
     if (squareTile % 3 == 0) {
-        secondTile = squareTile++;
-        thirdTile = secondTile++;
+        secondTile = squareTile + 1;
+        thirdTile = secondTile + 1;
     }
     else if (squareTile % 3 == 1) { // tile is in the middle column
         secondTile = squareTile - 1;
