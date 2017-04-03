@@ -16,6 +16,8 @@ $(document).ready(function () {
     $('#gameBoard').on('dragover', preventDefault);
     $('#gameBoard').on('drop', drop);
     $('#gameBoard').on('dragstart', preventDefault);
+    $("#btnPlayAgain").css("display", "none");
+    $('#btnPlayAgain').click(playAgain);
 });
 
 function initializeRound() {
@@ -29,6 +31,7 @@ function initializeRound() {
         initializePlayer("X");
     }
     displayResults();
+    $("#btnPlayAgain").css("display", "none");
 }
 
 function resetBoard() {
@@ -47,6 +50,11 @@ function displayResults() {
     $('#resultX').text(resultX);
     $('#resultO').text(resultO);
     $('#totalRounds').text(totalPlayedRounds);
+    $("#btnPlayAgain").css("display", "");
+}
+
+function playAgain() {
+   initializeRound();
 }
 
 function dragStarted(e) {
@@ -120,7 +128,7 @@ function changePlayerTurn(previousPlayer) {
 function endCurrentRound() {
     alert("No player has won! Try again");
     totalPlayedRounds++;
-    initializeRound();
+    displayResults();
 }
 
 function checkForWinner(player, squareTile) {
