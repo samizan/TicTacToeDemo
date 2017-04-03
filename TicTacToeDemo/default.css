@@ -1,5 +1,6 @@
 ﻿body {
     font-family: Arial, Helvetica, sans-serif;
+    background-image: url('/Content/Images/background-board.jpg');
 }
 
 .flex-container {
@@ -15,10 +16,12 @@
 }
 
 #gameBoard {
-    width: 265px;
-    height: 265px;
+    width: 312px;
+    height: 312px;
+    box-sizing: border-box;
     margin-right: auto;
     margin-left: auto;
+    background-color: white;
 }
 
 #playerX {
@@ -33,11 +36,10 @@
     width: 600px;
 }
 
-#message {
-    font-size: 26px;
+#content {
+    font-size: 21px;
     color: black;
     text-align: center;
-    height: 80px;
 }
 
 #playerO {
@@ -47,25 +49,47 @@
 }
 
 .tile {
-    font-size: 64px;
-    width: 80px;
-    height: 80px;
+    font-size: 84px;
+    width: 100px;
+    height: 100px;
     background-color: gray;
     color: white;
     text-align: center;
+    cursor: pointer;
 }
 
 .square {
     border: 2px solid black;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     float: left;
 }
 
 .dragged {
-    background-color: lightgray;
+    background-color: black;
 }
 
 .won-tile {
     background-color: red;
+}
+
+#result {
+    margin: 5px;
+    border: 4px solid black;
+    padding-bottom: 20px;
+    border-radius: 25px;
+    background-color: white;
+}
+
+#message {
+    font-style: italic;
+}
+
+#btnPlayAgain {
+    padding: 15px;
+    border-radius: 15px;
+    background-color: green;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
 }
