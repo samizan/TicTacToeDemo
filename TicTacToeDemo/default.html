@@ -9,27 +9,31 @@
 <body>
     <div class="flex-container">
         <div id="playerX" class="flex-item">
-            <p>Player 1</p>
+            <h3>Player 1</h3>
             <div id="squareX" data-square="X" class="square player"></div>
         </div>
         <div id="game" class="flex-item">
-            <div id="message" align="center">
+            <div id="content">
                 <div id="result">
-                    <h3> Won Rounds</h3>
-                    <div>Played Rounds: <span id="totalRounds"></span></div>
+                    <h2>Score</h2>
                     <div>Player 1: <span id="resultX"></span></div>
                     <div>Player 2: <span id="resultO"></span></div>
+                    <div>Played Rounds: <span id="totalRounds"></span></div>
+                    <br />
+                    <div id="message">&nbsp;</div>
+  
                 </div>
                 <br />
                 <div id="gameBoard"></div>
+                <br />
                 <div>
-                    <button id="btnPlayAgain">Play Again!</button>
+                    <button id="btnPlayAgain" class="play-again">Play Again!</button>
                 </div>
             </div>
         </div>
 
         <div id="playerO" class="flex-item">
-            <p>Player 2</p>
+            <h3>Player 2</h3>
             <div id="squareO" data-square="O" class="square player"></div>
         </div>
     </div>

@@ -16,7 +16,7 @@ $(document).ready(function () {
     $('#gameBoard').on('dragover', preventDefault);
     $('#gameBoard').on('drop', drop);
     $('#gameBoard').on('dragstart', preventDefault);
-    $("#btnPlayAgain").css("display", "none");
+    $("#btnPlayAgain").css("display", "none"); 
     $('#btnPlayAgain').click(playAgain);
 });
 
@@ -30,8 +30,8 @@ function initializeRound() {
     else {
         initializePlayer("X");
     }
-    displayResults();
-    $("#btnPlayAgain").css("display", "none");
+    displayResults("");
+    $("#btnPlayAgain").css("display", "none"); 
 }
 
 function resetBoard() {
@@ -46,11 +46,40 @@ function createBoard() {
     }
 }
 
-function displayResults() {
+function displayResults(wonPlayer) {
     $('#resultX').text(resultX);
     $('#resultO').text(resultO);
     $('#totalRounds').text(totalPlayedRounds);
     $("#btnPlayAgain").css("display", "");
+    switch (wonPlayer) {
+        case "X":
+            $('#message').text("Player 1 has won this round!");
+            toggleResultColor(wonPlayer);
+            break;
+        case "O":
+            $('#message').text("Player 2 has won this round!");
+            toggleResultColor(wonPlayer);
+            break;
+        case "0":
+            $('#message').text("No player has won! Try again");
+            toggleResultColor(wonPlayer);
+            break;
+    }
+}
+
+function toggleResultColor(player) {
+    if (player == "X") {
+        $('#resultX').css("color", "red");
+        $('#resultO').css("color", "black");
+    }
+    else if (player == "O") {
+        $('#resultX').css("color", "black");
+        $('#resultO').css("color", "red");
+    }
+    else {
+        $('#resultX').css("color", "black");
+        $('#resultO').css("color", "black");
+    }
 }
 
 function playAgain() {
@@ -97,7 +126,6 @@ function moveTile(sourceLocation, destinationLocation) {
     $draggedItem.appendTo($target);
     var winningGame = checkForWinner(sourceLocation, destinationLocation);
     if (winningGame) {
-        alert("Player " + sourceLocation + " has won!");
         updateResults(sourceLocation);
     }
     else if (turnsLeft > 0) {
@@ -114,7 +142,7 @@ function updateResults(wonPlayer) {
     else
         resultO++;
     totalPlayedRounds++;
-    displayResults();
+    displayResults(wonPlayer);
 }
 
 function changePlayerTurn(previousPlayer) {
@@ -126,9 +154,8 @@ function changePlayerTurn(previousPlayer) {
 }
 
 function endCurrentRound() {
-    alert("No player has won! Try again");
     totalPlayedRounds++;
-    displayResults();
+    displayResults("0");
 }
 
 function checkForWinner(player, squareTile) {
