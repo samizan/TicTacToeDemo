@@ -209,6 +209,10 @@ function checkDiagonalTiles(player, squareTile) {
         else
             return;
     }
+    else if (squareTile == 4) { // middle tile in second row -- exceptional case
+            secondTile = [squareTile - 2, squareTile - 4]; // outmost right or outmost left tiles in first row
+            thirdTile = [squareTile  + 2, squareTile + 4];  // outmost right or outmost left tiles in third row
+    }
     else if (squareTile > 5) { // tile is in the third row
         if (squareTile == 6) {
             secondTile = squareTile - 2;
@@ -228,14 +232,45 @@ function checkDiagonalTiles(player, squareTile) {
 }
 
 function checkWinningTiles(player, firstTile, secondTile, thirdTile) {
-    if ($('#square' + secondTile).children().text() != player) {
-        return false;
+    if (secondTile.length > 1 && thirdTile.length > 1) {
+        var secondTileDiagonal;
+        var thirdTileDiagonal;
+        var diagonalWon = false;
+
+        if ($('#square' + secondTile[0]).children().text() == player && $('#square' + thirdTile[0]).children().text() == player) {
+            secondTileDiagonal = secondTile[0];
+            thirdTileDiagonal = thirdTile[0];
+            diagonalWon = true;
+        }
+
+        if ($('#square' + secondTile[1]).children().text() == player && $('#square' + thirdTile[1]).children().text() == player) {
+            secondTileDiagonal = secondTile[1];
+            thirdTileDiagonal = thirdTile[1];
+            diagonalWon = true;
+        }
+
+        if (diagonalWon) {
+            $('#square' + firstTile).children().addClass("won-tile");
+            $('#square' + secondTileDiagonal).children().addClass("won-tile");
+            $('#square' + thirdTileDiagonal).children().addClass("won-tile");
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
-    if ($('#square' + thirdTile).children().text() != player) {
-        return false;
+    else {
+        if ($('#square' + secondTile).children().text() != player) {
+            return false;
+        }
+        if ($('#square' + thirdTile).children().text() != player) {
+            return false;
+        }
+
+        $('#square' + firstTile).children().addClass("won-tile");
+        $('#square' + secondTile).children().addClass("won-tile");
+        $('#square' + thirdTile).children().addClass("won-tile");
     }
-    $('#square' + firstTile).children().addClass("won-tile");
-    $('#square' + secondTile).children().addClass("won-tile");
-    $('#square' + thirdTile).children().addClass("won-tile");
     return true;
 }
