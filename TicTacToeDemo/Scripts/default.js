@@ -127,6 +127,7 @@ function preventDefault(e) {
 }
 
 function drop(e) {
+    e.preventDefault();
     var $square = $(e.target);
     if ($square.hasClass('square')) {
         var destinationLocation = $square.data('square');
