@@ -6,19 +6,42 @@ var turnsLeft;
 var resultX = 0;
 var resultO = 0;
 var totalPlayedRounds = 0;
+var isMobile;
 
 $(document).ready(function () {
     jQuery.event.addProp('dataTransfer');
     initializeRound();
-    $('.player').on('dragstart', dragStarted);
-    $('.player').on('dragend', dragEnded);
-    $('#gameBoard').on('dragenter', preventDefault);
-    $('#gameBoard').on('dragover', preventDefault);
-    $('#gameBoard').on('drop', drop);
-    $('#gameBoard').on('dragstart', preventDefault);
-    $("#btnPlayAgain").css("display", "none"); 
+    $("#btnPlayAgain").css("display", "none");
     $('#btnPlayAgain').click(playAgain);
+    if (checkIfMobile()) {
+        $('#gameBoard').css("cursor", "pointer");
+        $('.tile').css("cursor", "default");
+        $('#gameBoard').on('click', createMobileTile);
+    }
+    else {
+        $('.player').on('dragstart', dragStarted);
+        $('.player').on('dragend', dragEnded);
+        $('#gameBoard').on('dragenter', preventDefault);
+        $('#gameBoard').on('dragover', preventDefault);
+        $('#gameBoard').on('drop', drop);
+        $('#gameBoard').on('dragstart', preventDefault);
+    }
 });
+
+function checkIfMobile() {
+    if (screen.width <= 550)
+        isMobile = true;
+    else
+        isMobile = false;
+
+    return isMobile;
+}
+
+function createMobileTile(e) {
+    $tileHolder = $(e.target);
+    var tileNumber = $tileHolder.data('square');
+    moveTile(player, tileNumber);
+}
 
 function initializeRound() {
     turnsLeft = 9;
@@ -113,6 +136,7 @@ function drop(e) {
 }
 
 function initializePlayer(player) {
+    this.player = player;
     var $square = $('#square' + player);
     var $tile = $('<div id="tile' + player +'"  draggable="true" class="tile" >' + player + '</div>');
     $tile.appendTo($square);
