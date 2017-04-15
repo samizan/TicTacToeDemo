@@ -1,18 +1,22 @@
 ﻿/// <reference path="jquery-3.1.1.min.js" />
 var MyTicTacToe = (function ($) {
-    var _squareCount = 9;
-    var _player;
+    var GAME_HUB = $.connection.ticTacToeHub;
+    var SQUARE_COUNT = 9;
+    var _playerLetter;
     var _turnsLeft;
     var _resultX = 0;
     var _resultO = 0;
     var _totalPlayedRounds = 0;
     var _isMobile;
+    var _currentTile;
+    var _currentPlayer;
+    var _firstPlayer;
+    var _secondPlayer;
 
     var startGame = function () {
-        initializeRound();
         $("#btnPlayAgain").css("display", "none");
         $('#btnPlayAgain').click(playAgain);
-        if (checkIfMobile()) {
+        if (isMobile()) {
             $('#gameBoard').css("cursor", "pointer");
             $('.tile').css("cursor", "default");
             $('#gameBoard').on('click', createMobileTile);
@@ -29,29 +33,33 @@ var MyTicTacToe = (function ($) {
     }
 
     return {
-        startGame: startGame
+        startGame: startGame,
+        permitMoves: permitMoves,
+        playTurn: playTurn
     };
 
-    function checkIfMobile() {
-        if (screen.width <= 550)
-            _isMobile = true;
-        else
-            _isMobile = false;
+    function permitMoves(currentPlayer, firstPlayer, secondPlayer) {
+        _currentPlayer = currentPlayer;
+        _firstPlayer = firstPlayer;
+        _secondPlayer = secondPlayer;
 
-        return _isMobile;
+        initializeRound();
     }
 
-    function createMobileTile(e) {
-        $tileHolder = $(e.target);
-        var tileNumber = $tileHolder.data('square');
-        moveTile(_player, tileNumber);
+    function playTurn(target, tileType) {
+        var $square = $('#' + target);
+        if ($square.hasClass('square')) {
+            var destinationLocation = $square.data('square');
+            var sourceLocation = tileType;
+            moveTile(sourceLocation, destinationLocation);
+        }
     }
 
     function initializeRound() {
         _turnsLeft = 9;
         resetBoard();
         createBoard();
-        if (_player == "X") {
+        if (_playerLetter == "X") {
             initializePlayer("O");
         }
         else {
@@ -59,6 +67,45 @@ var MyTicTacToe = (function ($) {
         }
         displayResults("");
         $("#btnPlayAgain").css("display", "none");
+        if (_currentPlayer == _firstPlayer) {
+            $('#squareO').on('dragstart', preventDefault);
+        }
+        else {
+            $('#squareX').on('dragstart', preventDefault);
+        }
+    }
+
+    function initializePlayer(player) {
+        _playerLetter = player;
+        var $square = $('#square' + player);
+        var $tile = $('<div id="tile' + player + '"  draggable="true" class="tile" >' + player + '</div>');
+        $tile.appendTo($square);
+        _turnsLeft--;
+    }
+
+    function createMobileTile(e) {
+        var $tileFirstPlayer = $('#tileX');
+        var $tileSecondPlayer = $('#tileO');
+        if (isPlayerTurn($tileFirstPlayer, _firstPlayer) || isPlayerTurn($tileSecondPlayer, _secondPlayer)) {
+            GAME_HUB.server.executeTurn("square" + $(e.target).data('square'), _playerLetter);
+        }
+    }
+
+    function moveTile(sourceLocation, destinationLocation) {
+        var $draggedItem = $('#square' + sourceLocation).children();
+        $draggedItem.detach();
+        var $target = $('#square' + destinationLocation);
+        $draggedItem.appendTo($target);
+        var winningGame = checkForWinner(sourceLocation, destinationLocation);
+        if (winningGame) {
+            updateResults(sourceLocation);
+        }
+        else if (_turnsLeft > 0) {
+            changePlayerTurn(sourceLocation);
+        }
+        else {
+            endCurrentRound();
+        }
     }
 
     function resetBoard() {
@@ -67,7 +114,7 @@ var MyTicTacToe = (function ($) {
     }
 
     function createBoard() {
-        for (var i = 0; i < _squareCount; i++) {
+        for (var i = 0; i < SQUARE_COUNT; i++) {
             var $square = $('<div id="square' + i + '" data-square="' + i + '" class="square" ></div>');
             $square.appendTo($('#gameBoard'));
         }
@@ -113,6 +160,11 @@ var MyTicTacToe = (function ($) {
         initializeRound();
     }
 
+    function drop(e) {
+        e.preventDefault();
+        GAME_HUB.server.executeTurn(e.target.id, e.dataTransfer.getData('text'));
+    }
+
     function dragStarted(e) {
         var $tile = $(e.target);
         $tile.addClass("dragged");
@@ -130,41 +182,6 @@ var MyTicTacToe = (function ($) {
         e.preventDefault();
     }
 
-    function drop(e) {
-        e.preventDefault();
-        var $square = $(e.target);
-        if ($square.hasClass('square')) {
-            var destinationLocation = $square.data('square');
-            var sourceLocation = e.dataTransfer.getData('text');
-            moveTile(sourceLocation, destinationLocation);
-        }
-    }
-
-    function initializePlayer(player) {
-        _player = player;
-        var $square = $('#square' + player);
-        var $tile = $('<div id="tile' + player + '"  draggable="true" class="tile" >' + player + '</div>');
-        $tile.appendTo($square);
-        _turnsLeft--;
-    }
-
-    function moveTile(sourceLocation, destinationLocation) {
-        var $draggedItem = $('#square' + sourceLocation).children();
-        $draggedItem.detach();
-        var $target = $('#square' + destinationLocation);
-        $draggedItem.appendTo($target);
-        var winningGame = checkForWinner(sourceLocation, destinationLocation);
-        if (winningGame) {
-            updateResults(sourceLocation);
-        }
-        else if (_turnsLeft > 0) {
-            changePlayerTurn(sourceLocation);
-        }
-        else {
-            endCurrentRound();
-        }
-    }
-
     function updateResults(wonPlayer) {
         if (wonPlayer == "X")
             _resultX++;
@@ -176,10 +193,10 @@ var MyTicTacToe = (function ($) {
 
     function changePlayerTurn(previousPlayer) {
         if (previousPlayer == "X")
-            _player = "O";
+            _playerLetter = "O";
         else
-            _player = "X";
-        initializePlayer(_player);
+            _playerLetter = "X";
+        initializePlayer(_playerLetter);
     }
 
     function endCurrentRound() {
@@ -331,8 +348,24 @@ var MyTicTacToe = (function ($) {
         return true;
     }
 
-})(jQuery);
+    function isPlayerTurn(tilePlayer, playerInTurn) {
+        if (tilePlayer.length && _currentPlayer == playerInTurn) {
+            return true;
+        }
+        else
+            return false;
+    }
 
+    function isMobile() {
+        if (screen.width <= 550)
+            _isMobile = true;
+        else
+            _isMobile = false;
+
+        return _isMobile;
+    }
+
+})(jQuery);
 
 $(document).ready(function () {
     MyTicTacToe.startGame();
