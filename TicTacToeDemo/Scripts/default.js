@@ -127,11 +127,11 @@ var MyTicTacToe = (function ($) {
         $("#btnPlayAgain").css("display", "");
         switch (wonPlayer) {
             case "X":
-                $('#message').text("Player 1 has won this round!");
+                $('#message').text($('#firstPlayer').text() + " has won this round!");
                 toggleResultColor(wonPlayer);
                 break;
             case "O":
-                $('#message').text("Player 2 has won this round!");
+                $('#message').text($('#secondPlayer').text() + " has won this round!");
                 toggleResultColor(wonPlayer);
                 break;
             case "0":
