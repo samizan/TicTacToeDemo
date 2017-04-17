@@ -157,7 +157,7 @@ var MyTicTacToe = (function ($) {
     }
 
     function playAgain() {
-        initializeRound();
+        GAME_HUB.server.initializeRound();
     }
 
     function drop(e) {
