@@ -1,7 +1,7 @@
 # TicTacToeDemo
 This is a Tic Tac Toe game using HTML5 drag & drop feature and powered by .NET SignalR for multiplayer communication. It contains very basic functionalities of a multiplayer game like turn-based gaming and score recording while displaying the functionality of drag & drop in HTML5.
 
-![tic tac toe](https://cloud.githubusercontent.com/assets/7382719/25563020/99cb4792-2d9b-11e7-8ded-b10bfb9516f6.png)
+![tictactoe](https://cloud.githubusercontent.com/assets/7382719/25563392/52df767e-2da4-11e7-80b5-c2299d392e33.png)
 
 
 ## Demo
