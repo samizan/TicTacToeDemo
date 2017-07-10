@@ -97,7 +97,6 @@
         function registerCommunication(gameHub) {
             // Calls when user successfully logged in
             gameHub.client.onConnected = function (gameId, firstPlayer, secondPlayer, participants) {
-                console.log("in");
                 if (firstPlayer.length != 0) {
                     $('#firstPlayer').text(firstPlayer);
                     $('#hfFirstPlayer').val(firstPlayer);
@@ -110,7 +109,6 @@
                 //   setPermissableMoves(firstPlayer, secondPlayer);
 
                 if (firstPlayer.length != 0 && secondPlayer.length != 0) {
-                    //permitMoves();
                     gameHub.server.initializeRound();
                 }
             };
@@ -118,20 +116,19 @@
             // start game
             gameHub.client.initializeRound = function () {
 
-                permitMoves();
+                start();
             }
 
             // play turn
             gameHub.client.playTurn = function (target, tileType) {
-                console.log("Target: " + target + ", TileType: " + tileType);
                 MyTicTacToe.playTurn(target, tileType);
             }
         }
 
-        function permitMoves() {
+        function start() {
             var currentPlayer = hfCurrentPlayer.value;
             var firstPlayer = hfFirstPlayer.value;
             var secondPlayer = hfSecondPlayer.value;
-            MyTicTacToe.permitMoves(currentPlayer, firstPlayer, secondPlayer);
+            MyTicTacToe.startGame(currentPlayer, firstPlayer, secondPlayer);
         }
     </script>
