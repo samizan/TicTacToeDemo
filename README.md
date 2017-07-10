@@ -18,7 +18,7 @@ A fully working live demo can be found at http://tictactoedemo.azurewebsites.net
 * Responsive design.
 * .NET SignalR web sockets.
 * Turn-based gaming.
-* Non-persasive score recording.
+* Score recording.
 * Ability to personalize players (more to do for that)
 * Other cool features yet to be implemented.
 
