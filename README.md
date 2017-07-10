@@ -1,6 +1,6 @@
 # TicTacToeDemo
 
-[![Current Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/samizan/TicTacToeDemo) [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](http://tictactoedemo.azurewebsites.net/) 
+[![Current Version](https://img.shields.io/badge/version-1.1.0-green.svg)](https://github.com/samizan/TicTacToeDemo) [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](http://tictactoedemo.azurewebsites.net/) 
 
 This is a Tic Tac Toe game using HTML5 drag & drop feature and powered by .NET SignalR for multiplayer communication. It contains very basic functionalities of a multiplayer game like turn-based gaming and score recording while displaying the functionality of drag & drop in HTML5.
 
