@@ -123,24 +123,29 @@ var MyTicTacToe = (function ($) {
         _firstPlayer = firstPlayer;
         _secondPlayer = secondPlayer;
 
-        GAME_HUB.server.updatePlayerNames(_firstPlayer, _secondPlayer);
-
+        updatePlayerNames();
+        displayStartMessage();
         setRound();
     }
 
-    function updatePlayerNames(firstPlayer, secondPlayer) {
-        var firstPlayerLabel = $('#firstPlayer');
-        var secondPlayerLabel = $('#secondPlayer');
-        firstPlayerLabel.text(firstPlayer);
-        if (secondPlayer.length > 0) {
-            secondPlayerLabel.text(secondPlayer);
+    function updatePlayerNames() {
+        var firstPlayerMe = $('#firstPlayerMe');
+        var secondPlayerMe = $('#secondPlayerMe');
+        var personIndicatorText = " (Me)";
+
+
+        if (_currentPlayer == _firstPlayer && firstPlayerMe.val().length == 0) {
+            firstPlayerMe.text(personIndicatorText);
         }
-        if (_currentPlayer == firstPlayer) {
-            firstPlayerLabel.text(firstPlayerLabel.text() + " (Me)");
+
+        if(_currentPlayer == _secondPlayer && secondPlayerMe.val().length == 0) {
+            secondPlayerMe.text(personIndicatorText);
         }
-        else {
-            secondPlayerLabel.text(secondPlayerLabel.text() + " (Me)");
-        }
+    }
+
+    function displayStartMessage() {
+
+        $('#message').text("Game started!");
     }
 
     function setRound() {        

@@ -26,7 +26,7 @@ namespace TicTacToeDemo
             // send to caller
             string firstPlayer = (game.FirstPlayer != null) ? game.FirstPlayer.Name : "" ;
             string secondPlayer = (game.SecondPlayer != null) ? game.SecondPlayer.Name : "";
-            Clients.Caller.onConnected(game.GroupId, firstPlayer, secondPlayer, game.Participants);
+            Clients.All.onConnected(game.GroupId, firstPlayer, secondPlayer, game.Participants);
             
         }
 
@@ -101,11 +101,6 @@ namespace TicTacToeDemo
         {
             // Broad cast message
             Clients.All.playTurn(target, tileType);
-        }
-
-        public void UpdatePlayerNames(string firstPlayer, string secondPlayer)
-        {
-            Clients.All.updatePlayerNames(firstPlayer.Trim(), secondPlayer.Trim());
         }
     }
 }

@@ -43,13 +43,13 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                  <div id="playerX">
-                    <h3>Player 1: <label id="firstPlayer"></label> </h3>
+                    <h3>Player 1: <label id="firstPlayer"></label> <label id="firstPlayerMe"></label></h3>
                     <div id="squareX" data-square="X" class="square player"></div>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div id="playerO" class="flex-item">
-                    <h3>Player 2: <label id="secondPlayer"></label></h3>
+                    <h3>Player 2: <label id="secondPlayer"></label><label id="secondPlayerMe"></label></h3>
                     <div id="squareO" data-square="O" class="square player"></div>
                 </div>
             </div>
@@ -106,6 +106,9 @@
                     $('#secondPlayer').text(secondPlayer);
                     $('#hfSecondPlayer').val(secondPlayer);
                 }
+                else {
+                    $('#message').text("Waiting for second player to join...");
+                }
 
                 if (firstPlayer.length != 0 && secondPlayer.length != 0) {
                     gameHub.server.initializeRound();
@@ -121,10 +124,6 @@
             // play turn
             gameHub.client.playTurn = function (target, tileType) {
                 MyTicTacToe.playTurn(target, tileType);
-            }
-
-            gameHub.client.updatePlayerNames = function (firstPlayer, secondPlayer) {
-                MyTicTacToe.updatePlayerNames(firstPlayer, secondPlayer);
             }
         }
 
