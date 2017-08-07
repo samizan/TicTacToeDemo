@@ -102,5 +102,10 @@ namespace TicTacToeDemo
             // Broad cast message
             Clients.All.playTurn(target, tileType);
         }
+
+        public void UpdatePlayerNames(string firstPlayer, string secondPlayer)
+        {
+            Clients.All.updatePlayerNames(firstPlayer.Trim(), secondPlayer.Trim());
+        }
     }
 }
