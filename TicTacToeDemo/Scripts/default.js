@@ -46,7 +46,8 @@ var MyTicTacToe = (function ($) {
     return {
         setGame: setGame,
         startGame: startGame,
-        playTurn: playTurn
+        playTurn: playTurn,
+        updatePlayerNames: updatePlayerNames
     };
 
     function setPlayButton() {
@@ -122,7 +123,18 @@ var MyTicTacToe = (function ($) {
         _firstPlayer = firstPlayer;
         _secondPlayer = secondPlayer;
 
+        GAME_HUB.server.updatePlayerNames(_firstPlayer, _secondPlayer);
+
         setRound();
+    }
+
+    function updatePlayerNames(firstPlayer, secondPlayer) {
+        $('#hfFirstPlayer').val(firstPlayer);
+        $('#firstPlayer').text(firstPlayer);
+        if (secondPlayer.length > 0) {
+            $('#hfSecondPlayer').val(secondPlayer);
+            $('#secondPlayer').text(secondPlayer);
+        }
     }
 
     function setRound() {        
