@@ -88,7 +88,7 @@
 
         function startConnection(gameHub) {
             if ($('#hfCurrentPlayer').val().length == 0) {
-                displayName = prompt('Enter your name:', '');
+                displayName = prompt('Welcome to TicTacToe Game! \nTo proceed, you need another player to play with. Invite your opponent by sharing this page.\n\nTo start playing enter your name:', '');
                 $('#hfCurrentPlayer').val(displayName);
                 gameHub.server.connect(displayName);
             }

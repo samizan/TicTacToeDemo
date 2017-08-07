@@ -26,8 +26,7 @@ namespace TicTacToeDemo
             // send to caller
             string firstPlayer = (game.FirstPlayer != null) ? game.FirstPlayer.Name : "" ;
             string secondPlayer = (game.SecondPlayer != null) ? game.SecondPlayer.Name : "";
-            Clients.All.onConnected(game.GroupId, firstPlayer, secondPlayer, game.Participants);
-            
+            Clients.All.onConnected(game.GroupId, firstPlayer, secondPlayer, game.Participants);           
         }
 
         public GroupDetail Join(string playerName)
