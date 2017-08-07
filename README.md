@@ -37,7 +37,6 @@ To clone and run this repo, you need .NET Framework, Visual Studio or Code.
 * Hints & Instructions for playing
 * Display current player turn message
 * Add player Avatar
-* Persasive Player & Score Records
 
 ## License
 
