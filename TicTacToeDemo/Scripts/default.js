@@ -129,11 +129,17 @@ var MyTicTacToe = (function ($) {
     }
 
     function updatePlayerNames(firstPlayer, secondPlayer) {
-        $('#hfFirstPlayer').val(firstPlayer);
-        $('#firstPlayer').text(firstPlayer);
+        var firstPlayerLabel = $('#firstPlayer');
+        var secondPlayerLabel = $('#secondPlayer');
+        firstPlayerLabel.text(firstPlayer);
         if (secondPlayer.length > 0) {
-            $('#hfSecondPlayer').val(secondPlayer);
-            $('#secondPlayer').text(secondPlayer);
+            secondPlayerLabel.text(secondPlayer);
+        }
+        if (_currentPlayer == firstPlayer) {
+            firstPlayerLabel.text(firstPlayerLabel.text() + " (Me)");
+        }
+        else {
+            secondPlayerLabel.text(secondPlayerLabel.text() + " (Me)");
         }
     }
 
