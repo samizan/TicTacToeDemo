@@ -9,7 +9,7 @@ This is a Tic Tac Toe game using HTML5 drag & drop feature and powered by .NET S
 
 ## Demo
 
-A fully working live demo can be found at http://tictactoedemo.azurewebsites.net/
+A fully working live demo can be found at http://tictactoedemo.somee.com/
 
 
 ## Features
